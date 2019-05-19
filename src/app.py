@@ -1,4 +1,5 @@
 from aiocqhttp import CQHttp
+from datetime import datetime
 import config
 
 bot = CQHttp()
@@ -18,15 +19,29 @@ d = {
 }
 
 
-def log(msg):
+def log(context):
     with open('./log.log', 'a') as f:
-        f.write(msg + '\n')
+        f.write('time:%s, sender:%s, message_type:%s, user_id:%s, content:%s\n' % (
+            datetime.now(),
+            context['sender']['nickname'],
+            context['message_type'],
+            context['sender']['user_id'],
+            context['raw_message']))
 
 
 @bot.on_message()
 async def handle_msg(context):
     msg = context['message'].lower()
-    print(msg)
+    log(context)
+
+    '''
+    # print(str(context)) 内容示例如下
+     {'font': 1473688, 'message': '#help', 'message_id': 528, 'message_type': 'private', 'post_type': 'message',
+     'raw_message': '#help', 'self_id': 2691365658,
+     'sender': {'age': 30, 'nickname': '零零水', 'sex': 'male', 'user_id': 20004604}, 'sub_type': 'friend',
+     'time': 1558283078, 'user_id': 20004604}
+     '''
+
     result = ''
     for k in d:
         if ('#' + k) in msg:
@@ -36,6 +51,8 @@ async def handle_msg(context):
         result += '你可以使用以下命令~记得前面带上#喔\n'
         for k in d:
             result += '#' + k + '\n'
+    else:
+        result += "记得给star！"
 
     return {'reply': result}
 
