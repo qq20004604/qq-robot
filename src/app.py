@@ -32,7 +32,6 @@ def log(context):
 @bot.on_message()
 async def handle_msg(context):
     msg = context['message'].lower()
-    log(context)
 
     '''
     # print(str(context)) 内容示例如下
@@ -43,16 +42,26 @@ async def handle_msg(context):
      '''
 
     result = ''
+    isindict = False
+    isinhelp = False
     for k in d:
         if ('#' + k) in msg:
             result += d[k] + '\n'
+            isindict = True
 
     if '#help' in msg:
         result += '你可以使用以下命令~记得前面带上#喔\n'
+        isinhelp = True
         for k in d:
             result += '#' + k + '\n'
-    else:
+
+    # 默认词典要求给star
+    if isindict is True:
         result += "记得给star！"
+
+    # 只要是词典之一，则打印日志
+    if isindict is True or isinhelp is True:
+        log(context)
 
     return {'reply': result}
 
