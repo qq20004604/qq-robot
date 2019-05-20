@@ -4,6 +4,8 @@ import datetime as dt
 from apscheduler.schedulers.blocking import BlockingScheduler
 import config
 import threading
+import requests
+import json
 
 bot = CQHttp()
 
@@ -113,14 +115,31 @@ async def handle_request(context):
 
 def start():
     print('start')
-    bot.send(getGroupContxt(), message='小秘书已启动～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % datetime.now(),
-             auto_escape=True)
+
+    # url = 'http://' + config.HOST + ":5500/"
+    # headers = {'content-type': 'application/json'}
+    # requestData = {
+    #     "action": "send_private_msg",
+    #     "params": {
+    #         "user_id": 20004604,
+    #         "message": "你好",
+    #         'auto_escape': True
+    #     }
+    # }
+    # ret = requests.post(url, json=requestData, headers=headers)
+    #
+    # print(str(ret))
+    # for k in ret:
+    #     print(k)
+    bot.send_private_msg(user_id=20004604, message='hello')
+    # bot.send(getGroupContxt(), message='小秘书已启动～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % datetime.now(),
+    #          auto_escape=True)
 
 
 def run_thread():
     # 实例化一个调度器
     scheduler = BlockingScheduler()
-    scheduler.add_job(start, 'date', run_date=(datetime.now() + dt.timedelta(seconds=5)), args=[])
+    scheduler.add_job(start, 'date', run_date=(datetime.now() + dt.timedelta(seconds=3)), args=[])
     # 开始运行调度器
     scheduler.start()
 
