@@ -1,6 +1,9 @@
 from aiocqhttp import CQHttp
 from datetime import datetime
+import datetime as dt
+from apscheduler.schedulers.blocking import BlockingScheduler
 import config
+import threading
 
 bot = CQHttp()
 
@@ -19,14 +22,43 @@ d = {
 }
 
 
-def log(context):
-    with open('./log.log', 'a') as f:
+def log(context, filename='./log.log'):
+    with open(filename, 'a') as f:
         f.write('time:%s, sender:%s, message_type:%s, user_id:%s, content:%s\n' % (
             datetime.now(),
             context['sender']['nickname'],
             context['message_type'],
             context['sender']['user_id'],
             context['raw_message']))
+
+
+def getGroupContxt(group_id=387017550):
+    return {
+        'anonymous': None,
+        'font': 1473688,
+        'group_id': group_id,
+        'message': '',  # 现在应该可以了
+        'message_id': 593,
+        # 'message_type': 'group',
+        # 'post_type': 'message',
+        # 'raw_message': '',  # 现在应该可以了
+        # 'self_id': 2691365658,
+        # 'sender': {
+        #     'age': 30,
+        #     'area': '杭州',
+        #     'card': '前阿里-零零水',
+        #     'level': '传说',
+        #     'nickname': '零零水',
+        #     'role': 'owner',
+        #     'sex': 'male',
+        #     'title': '',
+        #     'user_id': 20004604
+        # },
+        # 'sender': None,
+        'sub_type': 'normal',
+        'time': 0,  # 1558323327
+        'user_id': 0  # 20004604
+    }
 
 
 @bot.on_message()
@@ -62,6 +94,8 @@ async def handle_msg(context):
     # 只要是词典之一，则打印日志
     if isindict is True or isinhelp is True:
         log(context)
+    with open('./group.log', 'a') as f:
+        f.write(str(context) + '\n')
 
     return {'reply': result}
 
@@ -77,4 +111,26 @@ async def handle_request(context):
     return {'approve': True}
 
 
+def start():
+    print('start')
+    bot.send(getGroupContxt(), message='小秘书已启动～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % datetime.now(),
+             auto_escape=True)
+
+
+def run_thread():
+    # 实例化一个调度器
+    scheduler = BlockingScheduler()
+    scheduler.add_job(start, 'date', run_date=(datetime.now() + dt.timedelta(seconds=5)), args=[])
+    # 开始运行调度器
+    scheduler.start()
+
+
+t1 = threading.Thread(target=run_thread)
+t1.setDaemon(True)
+t1.start()
+
 bot.run(host=config.HOST, port=config.PORT)
+
+# print('before join')
+# t.join(1)
+# print('after join')
