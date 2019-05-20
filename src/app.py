@@ -1,13 +1,19 @@
 from aiocqhttp import CQHttp
 from datetime import datetime
-import datetime as dt
-from apscheduler.schedulers.blocking import BlockingScheduler
-import config
-import threading
-import requests
-import json
+from sendmsg import SendMsg
 
-bot = CQHttp()
+# windows本机运行本脚本与coolq的配置
+# HOST = '127.0.0.1'
+# PORT = 7788
+
+# docker的配置
+HOST = '172.17.0.1'
+PORT = 7788
+
+# 固定不变
+BASEURL = 'http://127.0.0.1:15700/'
+
+bot = CQHttp(api_root=BASEURL)
 
 d = {
     '博客': 'https://blog.csdn.net/qq20004604',
@@ -20,47 +26,19 @@ d = {
     'vue': 'https://github.com/qq20004604/vue-scaffold',
     '笔记': 'https://github.com/qq20004604/notes',
     'demo': 'https://github.com/qq20004604/some_demo',
-    '海外服务器': 'https://manage.hostdare.com/aff.php?aff=939',
+    '海外服务器': 'https://manage.hostdare.com/aff.php?aff=939\n这个可以做私人服务器（不需要备案），也可以找群主询问如何架设SS server的方法。',
+    '机器人': 'https://github.com/qq20004604/qq-robot'
 }
 
 
 def log(context, filename='./log.log'):
-    with open(filename, 'a') as f:
+    with open(filename, 'a', encoding='utf-8') as f:
         f.write('time:%s, sender:%s, message_type:%s, user_id:%s, content:%s\n' % (
             datetime.now(),
             context['sender']['nickname'],
             context['message_type'],
             context['sender']['user_id'],
             context['raw_message']))
-
-
-def getGroupContxt(group_id=387017550):
-    return {
-        'anonymous': None,
-        'font': 1473688,
-        'group_id': group_id,
-        'message': '',  # 现在应该可以了
-        'message_id': 593,
-        # 'message_type': 'group',
-        # 'post_type': 'message',
-        # 'raw_message': '',  # 现在应该可以了
-        # 'self_id': 2691365658,
-        # 'sender': {
-        #     'age': 30,
-        #     'area': '杭州',
-        #     'card': '前阿里-零零水',
-        #     'level': '传说',
-        #     'nickname': '零零水',
-        #     'role': 'owner',
-        #     'sex': 'male',
-        #     'title': '',
-        #     'user_id': 20004604
-        # },
-        # 'sender': None,
-        'sub_type': 'normal',
-        'time': 0,  # 1558323327
-        'user_id': 0  # 20004604
-    }
 
 
 @bot.on_message()
@@ -96,7 +74,7 @@ async def handle_msg(context):
     # 只要是词典之一，则打印日志
     if isindict is True or isinhelp is True:
         log(context)
-    with open('./group.log', 'a') as f:
+    with open('./group.log', 'a', encoding='utf-8') as f:
         f.write(str(context) + '\n')
 
     return {'reply': result}
@@ -113,42 +91,9 @@ async def handle_request(context):
     return {'approve': True}
 
 
-def start():
-    print('start')
+SendMsg(BASEURL)
 
-    # url = 'http://' + config.HOST + ":5500/"
-    # headers = {'content-type': 'application/json'}
-    # requestData = {
-    #     "action": "send_private_msg",
-    #     "params": {
-    #         "user_id": 20004604,
-    #         "message": "你好",
-    #         'auto_escape': True
-    #     }
-    # }
-    # ret = requests.post(url, json=requestData, headers=headers)
-    #
-    # print(str(ret))
-    # for k in ret:
-    #     print(k)
-    bot.send_private_msg(user_id=20004604, message='hello')
-    # bot.send(getGroupContxt(), message='小秘书已启动～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % datetime.now(),
-    #          auto_escape=True)
-
-
-def run_thread():
-    # 实例化一个调度器
-    scheduler = BlockingScheduler()
-    scheduler.add_job(start, 'date', run_date=(datetime.now() + dt.timedelta(seconds=3)), args=[])
-    # 开始运行调度器
-    scheduler.start()
-
-
-t1 = threading.Thread(target=run_thread)
-t1.setDaemon(True)
-t1.start()
-
-bot.run(host=config.HOST, port=config.PORT)
+bot.run(host=HOST, port=PORT)
 
 # print('before join')
 # t.join(1)
