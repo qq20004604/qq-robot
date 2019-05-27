@@ -27,7 +27,8 @@ d = {
     '笔记': 'https://github.com/qq20004604/notes',
     'demo': 'https://github.com/qq20004604/some_demo',
     '海外服务器': 'https://manage.hostdare.com/aff.php?aff=939\n这个可以做私人服务器（不需要备案），也可以找群主询问如何架设SS server的方法。',
-    '机器人': 'https://github.com/qq20004604/qq-robot'
+    '机器人': 'https://github.com/qq20004604/qq-robot',
+    '架构': 'https://juejin.im/post/5cea1f705188250640005472'
 }
 
 
@@ -82,7 +83,7 @@ async def handle_msg(context):
 
 @bot.on_notice('group_increase')
 async def handle_group_increase(context):
-    await bot.send(context, message='欢迎新人～',
+    await bot.send(context, message='欢迎新人～可以输入#help来向我查询所有命令喔',
                    at_sender=True, auto_escape=True)
 
 
