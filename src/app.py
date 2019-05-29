@@ -23,12 +23,13 @@ d = {
     'docker': 'https://github.com/qq20004604/docker-learning',
     'webpack': 'https://github.com/qq20004604/webpack-study',
     'react': 'https://github.com/qq20004604/react-demo',
-    'vue': 'https://github.com/qq20004604/vue-scaffold',
+    'vue': 'github： https://github.com/qq20004604/vue-scaffold\n博客专栏（1.x）：https://blog.csdn.net/qq20004604/article/category/6381182',
     '笔记': 'https://github.com/qq20004604/notes',
     'demo': 'https://github.com/qq20004604/some_demo',
     '海外服务器': 'https://manage.hostdare.com/aff.php?aff=939\n这个可以做私人服务器（不需要备案），也可以找群主询问如何架设SS server的方法。',
     '机器人': 'https://github.com/qq20004604/qq-robot',
-    '架构': 'https://juejin.im/post/5cea1f705188250640005472'
+    '架构': 'https://juejin.im/post/5cea1f705188250640005472',
+    'es6': 'https://blog.csdn.net/qq20004604/article/details/78014684',
 }
 
 
