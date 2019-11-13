@@ -1,6 +1,9 @@
 from aiocqhttp import CQHttp
 from datetime import datetime
 from sendmsg import SendMsg
+from loadData import LoadData
+import threading
+import time
 
 # windows本机运行本脚本与coolq的配置
 # HOST = '127.0.0.1'
@@ -35,6 +38,8 @@ d = {
     'Macbook 上手攻略': 'https://github.com/qq20004604/when-you-get-new-Macbook',
     'python的 django 与 mysql 交互': 'https://blog.csdn.net/qq20004604/article/details/89934212'
 }
+
+ld = LoadData()
 
 
 def log(context, filename='./log.log'):
@@ -99,8 +104,20 @@ async def handle_request(context):
 
 SendMsg(BASEURL)
 
-bot.run(host=HOST, port=PORT)
 
-# print('before join')
-# t.join(1)
-# print('after join')
+def mixin_dict():
+    global d
+    hour = 0
+    while True:
+        # 1 分钟更新一次
+        time.sleep(60)
+        hour = hour + 1
+        print('%s hour pass' % hour)
+        ld_dict = ld.load_search_info()
+        d = {**d, **ld_dict}
+
+
+t1 = threading.Thread(target=mixin_dict, name='loop')
+t1.start()
+
+bot.run(host=HOST, port=PORT)
