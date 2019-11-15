@@ -36,10 +36,7 @@ class LoadData(object):
                        database=self.mysql_config['database']) as mtool:
             result = mtool.run_sql([
                 [
-                    'SELECT * FROM info WHERE search_key = %s',
-                    [
-                        'test'
-                    ]
+                    'SELECT * FROM info'
                 ]
             ])
             print(result)

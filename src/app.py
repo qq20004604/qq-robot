@@ -19,24 +19,24 @@ BASEURL = 'http://127.0.0.1:15700/'
 bot = CQHttp(api_root=BASEURL)
 
 d = {
-    '博客': 'https://blog.csdn.net/qq20004604',
-    'github': 'https://github.com/qq20004604',
-    'nginx': 'https://github.com/qq20004604/nginx-demo',
-    'django': 'https://github.com/qq20004604/Python3_Django_Demo',
-    'docker': 'https://github.com/qq20004604/docker-learning',
-    'webpack': 'https://github.com/qq20004604/webpack-study',
-    'react': 'https://github.com/qq20004604/react-demo',
-    'vue': 'github： https://github.com/qq20004604/vue-scaffold\n博客专栏（1.x）：https://blog.csdn.net/qq20004604/article/category/6381182',
-    '笔记': 'https://github.com/qq20004604/notes',
-    'demo': 'https://github.com/qq20004604/some_demo',
-    '海外服务器': 'https://manage.hostdare.com/aff.php?aff=939\n这个可以做私人服务器（不需要备案），也可以找群主询问如何架设SS server的方法。',
-    'QQ 机器人': 'https://github.com/qq20004604/qq-robot',
-    '架构': 'https://juejin.im/post/5cea1f705188250640005472',
-    'es6': 'https://blog.csdn.net/qq20004604/article/details/78014684',
-    'vue 脚手架': 'https://github.com/qq20004604/Vue-with-webpack',
-    'react 脚手架': 'https://github.com/qq20004604/react-with-webpack',
-    'Macbook 上手攻略': 'https://github.com/qq20004604/when-you-get-new-Macbook',
-    'python的 django 与 mysql 交互': 'https://blog.csdn.net/qq20004604/article/details/89934212'
+    # '博客': 'https://blog.csdn.net/qq20004604',
+    # 'github': 'https://github.com/qq20004604',
+    # 'nginx': 'https://github.com/qq20004604/nginx-demo',
+    # 'django': 'https://github.com/qq20004604/Python3_Django_Demo',
+    # 'docker': 'https://github.com/qq20004604/docker-learning',
+    # 'webpack': 'https://github.com/qq20004604/webpack-study',
+    # 'react': 'https://github.com/qq20004604/react-demo',
+    # 'vue': 'github： https://github.com/qq20004604/vue-scaffold\n博客专栏（1.x）：https://blog.csdn.net/qq20004604/article/category/6381182',
+    # '笔记': 'https://github.com/qq20004604/notes',
+    # 'demo': 'https://github.com/qq20004604/some_demo',
+    # '海外服务器': 'https://manage.hostdare.com/aff.php?aff=939\n这个可以做私人服务器（不需要备案），也可以找群主询问如何架设SS server的方法。',
+    # 'QQ 机器人': 'https://github.com/qq20004604/qq-robot',
+    # '架构': 'https://juejin.im/post/5cea1f705188250640005472',
+    # 'es6': 'https://blog.csdn.net/qq20004604/article/details/78014684',
+    # 'vue脚手架': 'https://github.com/qq20004604/Vue-with-webpack',
+    # 'react脚手架': 'https://github.com/qq20004604/react-with-webpack',
+    # 'Macbook常用软件': 'https://github.com/qq20004604/when-you-get-new-Macbook',
+    # 'python的django与mysql交互': 'https://blog.csdn.net/qq20004604/article/details/89934212'
 }
 
 ld = LoadData()
@@ -110,11 +110,11 @@ def mixin_dict():
     hour = 0
     while True:
         # 1 分钟更新一次
-        time.sleep(60)
         hour = hour + 1
-        print('%s hour pass' % hour)
+        print('%s minutes pass' % hour)
         ld_dict = ld.load_search_info()
-        d = {**d, **ld_dict}
+        d = {**ld_dict}
+        time.sleep(60)
 
 
 t1 = threading.Thread(target=mixin_dict, name='loop')
