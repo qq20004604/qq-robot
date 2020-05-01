@@ -9,11 +9,12 @@ import time
 # HOST = '127.0.0.1'
 # PORT = 7788
 
-# docker的配置
-HOST = '172.17.0.1'
-PORT = 7788
 
-# 固定不变
+# 这个url是发送给docker容器里的coolq
+# 举例来说，假如docker命令有这样的 -p 3542:9000 -p 15700:5700
+# 9000 是coolq暴露的页面访问地址（这里映射到了外面的3542，所以外界通过3542端口访问）
+# 而5700是coolq接受数据的端口（即是这个python服务发送给coolq的数据），这里映射到了15700，
+# 所以外界通过15700端口发送信息给coolq
 BASEURL = 'http://127.0.0.1:15700/'
 
 bot = CQHttp(api_root=BASEURL)
@@ -55,7 +56,7 @@ def log(context, filename='./log.log'):
 @bot.on_message()
 async def handle_msg(context):
     msg = context['message'].lower()
-
+    # print(msg)
     '''
     # print(str(context)) 内容示例如下
      {'font': 1473688, 'message': '#help', 'message_id': 528, 'message_type': 'private', 'post_type': 'message',
@@ -107,11 +108,11 @@ SendMsg(BASEURL)
 
 def mixin_dict():
     global d
-    hour = 0
+    minutes = 0
     while True:
         # 1 分钟更新一次
-        hour = hour + 1
-        print('%s minutes pass' % hour)
+        minutes = minutes + 1
+        print('%s minutes pass' % minutes)
         ld_dict = ld.load_search_info()
         d = {**ld_dict}
         time.sleep(60)
@@ -120,4 +121,15 @@ def mixin_dict():
 t1 = threading.Thread(target=mixin_dict, name='loop')
 t1.start()
 
+# docker的配置
+HOST = '172.18.0.1'
+PORT = 12399
+
+# 这里是coolq接收到qq信息，然后发送到这个python服务的端口。
+# 所以也就是这个python服务，接收到这个消息的端口
+# 在 coolq 的docker容器里，这个是在 */coolq/app/io.github.richardchien.coolqhttpapi/config/(qq号).ini 里配置的
+# 由于容器不能通过 127.0.0.1 直接访问宿主机的端口，因此，需要通过执行 ip addr show docker0 命令来查看宿主机的端口
+# 举例来说，我的server执行这个命令，获得的宿主机的 ip 是 172.18.0.1 （即，容器访问 172.18.0.1 这个地址是访问宿主机）
+# 于是修改那个ini配置文件：post_url = http://172.18.0.1:34519
+# 这里的host可以保持要和那个ip地址保持一样，port也是
 bot.run(host=HOST, port=PORT)

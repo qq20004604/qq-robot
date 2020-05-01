@@ -10,18 +10,19 @@ class LoadData(object):
 
     # 加载 mysql 配置
     def _load_config(self):
+        self.mysql_config = {
+            'database': '',
+            'host': '',
+            'user': '',
+            'port': 0,
+            'pw': ''
+        }
         try:
             from config.mysql_options import mysql_config
             self.mysql_config = mysql_config
+            print(self.mysql_config)
         except ImportError:
-            mysql_config = {
-                'database': '',
-                'host': '',
-                'user': '',
-                'port': 0,
-                'pw': ''
-            }
-            print('无法加载到账号密码，请按代码中提供的格式')
+            print('无法加载到账号密码，请按代码中提供的格式，提供你的mysql相关配置')
 
     # 从 MySQL 加载数据
     def _load_from_mysql(self):

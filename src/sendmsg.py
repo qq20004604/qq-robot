@@ -9,9 +9,12 @@ import urllib.parse
 
 # 开始时通报
 def start_notice():
+    # pass
     return {
+        # 这个是群号，你改成自己机器人加入的那个群就行了
         'group_id': 387017550,
-        'message': '小秘书已启动～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % datetime.now()
+        'message': '小秘书已启动～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % time.strftime("%Y-%m-%d %H:%M:%S.%m",
+                                                                                  time.localtime())
     }
 
 
@@ -19,7 +22,8 @@ def start_notice():
 def inter_notice():
     return {
         'group_id': 387017550,
-        'message': '小秘书 is running～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % datetime.now()
+        'message': '小秘书 is running～你可以通过例如【#help】（不含中括号）来查看全部命令～现在时间是 %s' % time.strftime("%Y-%m-%d %H:%M:%S.%m",
+                                                                                          time.localtime())
     }
 
 
@@ -126,6 +130,7 @@ class SendMsg(object):
             pass
         else:
             print('send error: %s' % ret.reason)
+        # self.bot.send_group_msg(group_id=387017550, message=msg)
 
     # 群聊发送信息
     def send_group_msg(self, group_id, msg):
