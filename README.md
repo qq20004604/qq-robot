@@ -142,6 +142,6 @@ create table if not exists info
 > 添加权限（密码仅供参考，需要和loadData.py里的一样）
 
 ```
-GRANT ALL ON qq_robot.* to qq_rotbot_user@'%' IDENTIFIED BY '213123123fewfewfwefew';
+GRANT SELECT ON qq_robot.* to robot_inquirer@'%' IDENTIFIED BY '213723123fewfewfwefew!@$@!feq_1';
 FLUSH PRIVILEGES;
 ```

@@ -1,5 +1,5 @@
 -- 执行这行语句的时候，用root账号执行。意思是创建一个用户，允许他在任何ip访问 qq_robot这个数据库，密码是后面BY里面的
-GRANT ALL ON qq_robot.* to qq_rotbot_user@'%' IDENTIFIED BY 'vwfwefwfv12312%#%infq!~))I(';
+GRANT SELECT ON qq_robot.* to robot_inquirer@'%' IDENTIFIED BY '213723123fewfewfwefew!@$@!feq_1';
 FLUSH PRIVILEGES;
 
 create schema if not exists qq_robot collate utf8mb4_general_ci;
