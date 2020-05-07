@@ -86,8 +86,6 @@ async def handle_msg(context):
     # 只要是词典之一，则打印日志
     if isindict is True or isinhelp is True:
         log(context)
-    with open('./group.log', 'a', encoding='utf-8') as f:
-        f.write(str(context) + '\n')
 
     return {'reply': result}
 
@@ -112,7 +110,8 @@ def mixin_dict():
     while True:
         # 1 分钟更新一次
         minutes = minutes + 1
-        print('%s minutes pass' % minutes)
+        if minutes % 60 == 0:
+            print('%s hours pass' % (minutes / 60))
         ld_dict = ld.load_search_info()
         d = {**ld_dict}
         time.sleep(60)

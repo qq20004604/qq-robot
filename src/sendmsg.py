@@ -45,12 +45,13 @@ class SendMsg(object):
             },
             {
                 # 行为（这个是api）
-                'action': 'send_private_msg',
+                'action': 'send_group_msg',
                 # 发送数据，这是一个函数，取返回值
                 'event_data': inter_notice,
                 # 最近一次发送时间，发送后更新为当前时间time.time()
                 'last_send_time': 0,
                 # 发送间隔（6个小时一次）
+                # 'sent_duration': 60,
                 'sent_duration': 3600 * 6,
                 # 发送次数。5表示发送5次，-1 代表无限次
                 'remain_times': -1
@@ -100,24 +101,26 @@ class SendMsg(object):
         # 需要 urllib.parse.quote(msg) 进行转义，不然例如 # 这种会被直接识别为哈希地址的表示。
         url = '%ssend_private_msg?user_id=%s&message=%s' % (self.base_url, user_id, urllib.parse.quote(msg))
         ret = requests.post(url)
-        print(url)
+        # print(url)
         # 发送成功
         if ret.status_code == 200:
-            print('ret.status_code: %s' % ret.status_code)
+            # print('ret.status_code: %s' % ret.status_code)
+            pass
         else:
-            print('send error: %s' % ret.reason)
+            print('send_private_msg send error: %s' % ret.reason)
         # self.bot.send_group_msg(group_id=387017550, message=msg)
 
     # 群聊发送信息
     def send_group_msg(self, group_id, msg):
         url = '%ssend_group_msg?group_id=%d&message=%s' % (self.base_url, group_id, urllib.parse.quote(msg))
-        print(url)
+        # print(url)
         ret = requests.post(url)
         # 发送成功
         if ret.status_code == 200:
-            print('ret.status_code: %s' % ret.status_code)
+            # print('ret.status_code: %s' % ret.status_code)
+            pass
         else:
-            print('send error: %s' % ret.reason)
+            print('send_group_msg send error: %s' % ret.reason)
 
 
 # 测试代码和示例代码
