@@ -11,6 +11,8 @@ QQ机器人，依赖于以下东西：
 
 * Nonebot：https://none.rclab.tk/guide/installation.html
 
+接付费定制版QQ机器人，联系（QQ：20004604，微信：qq20004604，加的时候请注明来意）
+
 ### 说明
 
 文件：
