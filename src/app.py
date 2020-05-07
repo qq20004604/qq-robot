@@ -55,7 +55,7 @@ def log(context, filename='./log.log'):
 
 @bot.on_message()
 async def handle_msg(context):
-    msg = context['message'].lower()
+    # msg = context['message'].lower()
     # print(msg)
     '''
     # print(str(context)) 内容示例如下
